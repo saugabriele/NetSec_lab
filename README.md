@@ -10,13 +10,11 @@ The project also demonstrates how to validate the model using a test dataset and
 
 ### Data Preprocessing:
 
-- The dataset consists of network traffic records (TCP/UDP) collected from an IoT environment.
+- The dataset consists of network traffic records collected from an IoT environment.
 - **Key features used for analysis:**
   - Connection state (`conn_state`)
-  - Protocol (`proto`)
   - Number of destination/source packets (`dst_pkts`, `src_pkts`)
-  - Number of destination/source bytes (`dst_bytes`, `src_bytes`)
-  - Attack type (`type`)
+  - Number of destination/source bytes (`dst_ip_bytes`, `src_ip_bytes`)
 - The attack types are grouped into two main categories:
   - **DoS or DDoS** attacks
   - **Other** (including normal traffic and other types of attacks such as backdoor, scanning, etc.)
@@ -52,24 +50,6 @@ A subset is classified as DoS/DDoS if any of the following conditions are met:
 - Users can select between "DoS/DDoS" or "Other" traffic types to evaluate the model.
 - The accuracy of the classifier is calculated based on its performance in detecting the correct labels for each subset.
 
-## How the NTC Model Works
-
-### Input:
-- The model takes in network traffic data for TCP and UDP protocols, where each record represents a flow of packets.
-
-### Processing:
-- The connection state for TCP packets is classified as "Suspicious" or "Not Suspicious" based on predefined mappings.
-- The model computes the percentages of packets (TCP/UDP) that meet certain conditions (e.g., packet count, byte size).
-
-### Thresholds:
-For each subset, the model checks whether:
-- The percentage of suspicious TCP connections exceeds the threshold.
-- The percentage of UDP packets exceeding feature thresholds is significant.
-
-### Output:
-- The model outputs a predicted label for each subset: `1` for "DoS/DDoS" and `0` for "Other".
-- The accuracy of the predictions is evaluated against actual labels.
-
 ## Requirements
 
 ### Libraries:
@@ -88,26 +68,6 @@ For each subset, the model checks whether:
 
 ### Data Preprocessing:
 - The dataset is read, preprocessed, and split into training and testing sets.
-
-### Model Training:
-- The training data is divided into subsets, and statistical thresholds for packet features are computed.
-- Connection states for TCP traffic are analyzed, and suspicious behaviors are flagged.
-
-### Model Validation:
-- Users are prompted to choose a dataset for validating the model (`DoS/DDoS` or `Other`).
-- The model classifies subsets of the test dataset and calculates the accuracy.
-
-## Example Plots
-
-### TCP Suspicious/Not Suspicious Percentage:
-- Visualizes the percentage of suspicious TCP connections across subsets.
-
-### UDP Feature Analysis:
-- Shows the mean values of destination/source packets and bytes for DoS/DDoS and non-DoS traffic.
-
-## Accuracy Metrics
-
-- The model's accuracy is calculated as the percentage of correct predictions (whether a subset is DoS/DDoS or Other) against the actual labels in the validation dataset.
 
 ## Conclusion
 
